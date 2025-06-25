@@ -11,6 +11,7 @@ export default function Header() {
           <li><Link to="/about" className="hover:text-sky-400">About</Link></li>
           <li><Link to="/projects" className="hover:text-sky-400">Projects</Link></li>
           <li><Link to="/contact" className="hover:text-sky-400">Contact</Link></li>
+          <li><Link to="/login" className='hover:text-sky-400'>Client Portal</Link></li>
         </ul>
       </nav>
     </header>

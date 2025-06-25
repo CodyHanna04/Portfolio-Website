@@ -11,6 +11,16 @@ const projects = [
     description: "Order management system for pancake nights.",
     route: "/project2",
   },
+  {
+    title: "Rental Property Management System",
+    description: "Manage properties and tenants easily.",
+    route: "/project3",
+  },
+  {
+    title: "Virtual Warehouse",
+    description: "Help visualize your warehouse inventory and space.",
+    route: "/project4",
+  },
 ];
 
 export default function Projects() {

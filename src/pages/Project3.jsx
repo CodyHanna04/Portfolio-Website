@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import project from "../projects/pancakeNight";
+import project from "../projects/hannaProperties";
 
-export default function Project2() {
+export default function Project3() {
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
