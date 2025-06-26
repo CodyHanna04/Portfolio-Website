@@ -30,7 +30,8 @@ const Register = () => {
         website: form.website,
         role: "client",
         userId: res.user.uid,
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
+        active: true
       });
       navigate("/client-dashboard");
     } catch (err) {

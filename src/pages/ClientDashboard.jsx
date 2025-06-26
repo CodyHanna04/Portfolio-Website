@@ -76,9 +76,6 @@ const ClientDashboard = () => {
     <div className="p-6 max-w-5xl mx-auto text-white">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Welcome, {userData.businessName}</h1>
-        <button onClick={handleLogout} className="bg-red-600 text-white px-4 py-2 rounded">
-          Logout
-        </button>
       </div>
 
       <div className="grid md:grid-cols-2 gap-6 mb-8">
@@ -122,7 +119,7 @@ const ClientDashboard = () => {
             />
             <textarea
               name="notes"
-              placeholder="Meeting Notes"
+              placeholder="Meeting Notes (Include location of meeting)"
               value={meetingForm.notes}
               onChange={handleMeetingChange}
               className="w-full p-2 bg-gray-800 border border-gray-600 rounded"

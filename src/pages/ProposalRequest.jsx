@@ -61,7 +61,7 @@ const ProposalRequest = () => {
         <textarea name="targetAudience" placeholder="Who is the target audience for this site?" className="w-full p-2 bg-gray-800 border border-gray-600 rounded h-20" value={form.targetAudience} onChange={handleChange} />
         <input name="designInspiration" type="url" placeholder="Link to design inspiration (optional)" className="w-full p-2 bg-gray-800 border border-gray-600 rounded" value={form.designInspiration} onChange={handleChange} />
         <input name="numberOfPages" type="text" placeholder="How many pages do you need?" className="w-full p-2 bg-gray-800 border border-gray-600 rounded" value={form.numberOfPages} onChange={handleChange} />
-        <input name="websiteGoal" type="text" placeholder="Goal of the site (e.g., minimal, corporate, creative)" className="w-full p-2 bg-gray-800 border border-gray-600 rounded" value={form.websiteGoal} onChange={handleChange} />
+        <input name="Project Name" type="text" placeholder="Goal of the site (e.g., minimal, corporate, creative) and a name to put behind it." className="w-full p-2 bg-gray-800 border border-gray-600 rounded" value={form.websiteGoal} onChange={handleChange} />
         <button type="submit" className="bg-sky-500 hover:bg-sky-600 text-white px-4 py-2 rounded">Submit Request</button>
         {message && <p className="text-green-400 text-center mt-2">{message}</p>}
         {error && <p className="text-red-500 text-center mt-2">{error}</p>}

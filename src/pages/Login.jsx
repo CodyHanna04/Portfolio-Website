@@ -22,7 +22,7 @@ const Login = () => {
       const role = userDoc.data()?.role || "client";
 
       if (role === "admin") {
-        navigate("/admin-dashboard");
+        navigate("/admin");
       } else {
         navigate("/client-dashboard");
       }
