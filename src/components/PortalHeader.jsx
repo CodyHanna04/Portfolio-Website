@@ -53,6 +53,7 @@ const PortalHeader = () => {
           <nav className="flex items-center gap-4">
             <Link to="/login" className="hover:underline">Login</Link>
             <Link to="/register" className="hover:underline">Register</Link>
+            <Link to="/register/ambassador" className="hover:underline">Become an Ambassador</Link>
           </nav>
         )}
       </div>

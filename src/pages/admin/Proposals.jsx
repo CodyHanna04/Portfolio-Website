@@ -56,6 +56,7 @@ export default function AdminProposals() {
       <h1 className="text-3xl font-bold mb-6">📄 All Project Proposals</h1>
       <div className="space-y-6">
         {proposals.map((project) => {
+          const isAmbassador = project.submittedBy === "ambassador";
           const client = usersMap[project.userId];
 
           return (
@@ -66,20 +67,42 @@ export default function AdminProposals() {
               <div className="flex justify-between items-start mb-3 flex-wrap gap-3">
                 <div>
                   <h2 className="text-xl font-semibold">
-                    {project.websiteGoal || "General"} — {client?.businessName || "Unknown Business"}
+                    {isAmbassador
+                      ? project.projectName || "Untitled"
+                      : project.websiteGoal || "General"}{" "}
+                    —{" "}
+                    {isAmbassador
+                      ? project.clientName || "Referred Client"
+                      : client?.businessName || "Unknown Business"}
                   </h2>
-                  <p className="text-sm text-gray-400">{client?.email || "No email"}</p>
-                  <p className="text-sm text-gray-400">{client?.phone}</p>
+                  <p className="text-sm text-gray-400">
+                    {isAmbassador ? project.clientEmail : client?.email || "No email"}
+                  </p>
+                  <p className="text-sm text-gray-400">
+                    {isAmbassador ? "(via referral)" : client?.phone}
+                  </p>
+                  {isAmbassador && (
+                    <p className="text-xs text-sky-400 mt-1">
+                      Referred by: <code>{project.referrerId}</code>
+                    </p>
+                  )}
+                  {project.clientApproved && (
+                    <p className="text-green-400 text-sm font-semibold mt-2">
+                      ✅ Client Approved
+                    </p>
+                  )}
                 </div>
 
                 <div className="flex items-center gap-3">
                   <label className="text-sm text-gray-300">Status:</label>
                   <select
-                    className={`rounded px-3 py-1 font-semibold text-white ${statusColors[project.status] || "bg-gray-600"}`}
+                    className={`rounded px-3 py-1 font-semibold text-white ${
+                      statusColors[project.status] || "bg-gray-600"
+                    }`}
                     value={project.status}
                     onChange={(e) => handleStatusChange(project.id, e.target.value)}
                   >
-                    {statusOptions.map(status => (
+                    {statusOptions.map((status) => (
                       <option key={status} value={status}>
                         {status.replace("_", " ").toUpperCase()}
                       </option>
@@ -89,7 +112,8 @@ export default function AdminProposals() {
               </div>
 
               <p className="text-gray-300 mb-2">
-                <strong>Details:</strong> {project.projectDetails}
+                <strong>Details:</strong>{" "}
+                {project.projectDetails || "No details provided."}
               </p>
 
               <div className="flex flex-wrap gap-4 mt-3">

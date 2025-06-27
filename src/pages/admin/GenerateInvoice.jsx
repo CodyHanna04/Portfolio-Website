@@ -2,7 +2,14 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { db } from "../../auth/firebase";
-import { doc, updateDoc, collection, addDoc, Timestamp, getDoc } from "firebase/firestore";
+import {
+  doc,
+  updateDoc,
+  collection,
+  addDoc,
+  Timestamp,
+  getDoc,
+} from "firebase/firestore";
 
 const GenerateInvoice = () => {
   const { proposalId } = useParams();
@@ -33,32 +40,50 @@ const GenerateInvoice = () => {
     setLoading(true);
 
     try {
-        const projectSnap = await getDoc(doc(db, "proposals", proposalId));
-        const projectData = projectSnap.exists() ? projectSnap.data() : {};
+      // Fetch proposal data
+      const projectSnap = await getDoc(doc(db, "proposals", proposalId));
+      if (!projectSnap.exists()) throw new Error("Proposal not found");
+      const projectData = projectSnap.data();
 
-        const invoiceRef = await addDoc(collection(db, "invoices"), {
-            proposalId,
-            items,
-            total,
-            dueDate: Timestamp.fromDate(new Date(dueDate)),
-            createdAt: Timestamp.now(),
-            projectName: projectData.websiteGoal || "",
-            clientName: projectData.businessName || "",
-            userId: projectData.userId || "",
-            email: projectData.email || "",
-            status: "unpaid"
-        });
+      const userId = projectData.userId || "";
+      let clientName = "";
+      let email = "";
 
-        await updateDoc(doc(db, "proposals", proposalId), {
-            invoiceId: invoiceRef.id,
-            invoiceUrl: `/view-invoice/${invoiceRef.id}`,
-        });
-
-        navigate(`/admin/invoices`);
-        } catch (err) {
-        console.error("Error creating invoice:", err);
-        setLoading(false);
+      // Fetch user data using userId
+      if (userId) {
+        const userSnap = await getDoc(doc(db, "users", userId));
+        if (userSnap.exists()) {
+          const userData = userSnap.data();
+          clientName = userData.businessName || userData.fullName || "";
+          email = userData.email || "";
         }
+      }
+
+      // Create invoice
+      const invoiceRef = await addDoc(collection(db, "invoices"), {
+        proposalId,
+        items,
+        total,
+        dueDate: Timestamp.fromDate(new Date(dueDate)),
+        createdAt: Timestamp.now(),
+        projectName: projectData.websiteGoal || "",
+        clientName,
+        userId,
+        email,
+        status: "unpaid",
+      });
+
+      // Update proposal with invoice reference
+      await updateDoc(doc(db, "proposals", proposalId), {
+        invoiceId: invoiceRef.id,
+        invoiceUrl: `/view-invoice/${invoiceRef.id}`,
+      });
+
+      navigate(`/admin/invoices`);
+    } catch (err) {
+      console.error("Error creating invoice:", err);
+      setLoading(false);
+    }
   };
 
   return (
@@ -83,13 +108,21 @@ const GenerateInvoice = () => {
               className="w-28 p-2 bg-gray-800 rounded border border-gray-700"
               required
             />
-            <button type="button" onClick={() => removeItem(idx)} className="text-red-400 hover:underline">
+            <button
+              type="button"
+              onClick={() => removeItem(idx)}
+              className="text-red-400 hover:underline"
+            >
               Remove
             </button>
           </div>
         ))}
 
-        <button type="button" onClick={addItem} className="bg-blue-600 px-4 py-2 rounded hover:bg-blue-700">
+        <button
+          type="button"
+          onClick={addItem}
+          className="bg-blue-600 px-4 py-2 rounded hover:bg-blue-700"
+        >
           + Add Item
         </button>
 
@@ -106,7 +139,10 @@ const GenerateInvoice = () => {
 
         <div className="text-lg font-semibold">Total: ${total.toFixed(2)}</div>
 
-        <button type="submit" className="bg-green-600 px-4 py-2 rounded hover:bg-green-700">
+        <button
+          type="submit"
+          className="bg-green-600 px-4 py-2 rounded hover:bg-green-700"
+        >
           {loading ? "Generating..." : "Generate Invoice"}
         </button>
       </form>
@@ -114,4 +150,4 @@ const GenerateInvoice = () => {
   );
 };
 
-export default GenerateInvoice; 
+export default GenerateInvoice;

@@ -20,7 +20,6 @@ export default function Home() {
       <div className="max-w-5xl mx-auto px-6 text-center space-y-12">
         {/* Hero */}
         <div className="fade-in">
-          <h1 className="text-5xl font-extrabold mb-4 leading-tight">Cody Hanna</h1>
           <p className="text-xl text-gray-300 max-w-2xl mx-auto mb-6">
             Full-stack developer creating real-world tools that solve real-world problems — from rental management systems to kitchen dashboards.
           </p>

@@ -1,4 +1,3 @@
-// src/pages/ProjectStatus.jsx
 import { useEffect, useState } from "react";
 import { auth, db } from "../auth/firebase";
 import {
@@ -10,7 +9,6 @@ import {
   doc,
   updateDoc,
 } from "firebase/firestore";
-import { Link } from "react-router-dom";
 
 const statusColors = {
   planning: "bg-yellow-500",
@@ -18,6 +16,7 @@ const statusColors = {
   review: "bg-purple-500",
   completed: "bg-green-500",
   pending: "bg-gray-500",
+  submitted: "bg-indigo-500",
 };
 
 const ProjectStatus = () => {
@@ -25,17 +24,25 @@ const ProjectStatus = () => {
   const [loading, setLoading] = useState(true);
   const [showCompleted, setShowCompleted] = useState(false);
   const [revisionInputs, setRevisionInputs] = useState({});
+  const [clientEmail, setClientEmail] = useState("");
 
   useEffect(() => {
     const fetchProjects = async () => {
       const user = auth.currentUser;
       if (!user) return;
 
-      const q = query(collection(db, "proposals"), where("userId", "==", user.uid));
-      const snapshot = await getDocs(q);
-      const projectData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      setClientEmail(user.email);
 
-      setProjects(projectData);
+      const q1 = query(collection(db, "proposals"), where("userId", "==", user.uid));
+      const q2 = query(collection(db, "proposals"), where("clientEmail", "==", user.email), where("submittedBy", "==", "ambassador"));
+
+      const [snap1, snap2] = await Promise.all([getDocs(q1), getDocs(q2)]);
+
+      const direct = snap1.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      const ambassador = snap2.docs.map(doc => ({ id: doc.id, ...doc.data(), isAmbassador: true }));
+
+      const combined = [...direct, ...ambassador];
+      setProjects(combined);
       setLoading(false);
     };
 
@@ -45,13 +52,14 @@ const ProjectStatus = () => {
   const handleDelete = async (id) => {
     if (confirm("Are you sure you want to delete this proposal?")) {
       await deleteDoc(doc(db, "proposals", id));
-      setProjects(projects.filter(p => p.id !== id));
+      setProjects((prev) => prev.filter((p) => p.id !== id));
     }
   };
 
   const handleRevisionSubmit = async (projectId) => {
     const revision = revisionInputs[projectId]?.trim();
     if (!revision) return;
+
     await updateDoc(doc(db, "proposals", projectId), {
       clientRevisionComment: revision,
     });
@@ -60,7 +68,7 @@ const ProjectStatus = () => {
 
   const filteredProjects = showCompleted
     ? projects
-    : projects.filter(p => p.status !== "completed");
+    : projects.filter((p) => p.status !== "completed");
 
   return (
     <div className="p-6 max-w-5xl mx-auto text-white">
@@ -92,7 +100,10 @@ const ProjectStatus = () => {
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-2 gap-2">
                 <div>
                   <h2 className="text-xl font-semibold">
-                    Website Proposal ({project.websiteGoal || "General"})
+                    {project.projectName || project.websiteGoal || "General Website"}{" "}
+                    {project.isAmbassador && (
+                      <span className="ml-2 text-sm text-purple-400">(via Ambassador)</span>
+                    )}
                   </h2>
                 </div>
                 <div className="flex flex-wrap gap-2 sm:justify-end items-center">
@@ -100,7 +111,7 @@ const ProjectStatus = () => {
                     {project.status?.replace("_", " ").toUpperCase() || "PENDING"}
                   </span>
 
-                  {project.status === "pending" && (
+                  {project.status === "pending" && !project.isAmbassador && (
                     <>
                       <a
                         href={`/edit-proposal/${project.id}`}
@@ -122,14 +133,18 @@ const ProjectStatus = () => {
               <p className="text-gray-300 mb-2">
                 <strong>Details:</strong> {project.projectDetails}
               </p>
+              {project.targetAudience && (
+                <p className="text-gray-300 mb-2">
+                  <strong>Target Audience:</strong> {project.targetAudience}
+                </p>
+              )}
+              {project.numberOfPages && (
+                <p className="text-gray-300 mb-2">
+                  <strong>Pages Needed:</strong> {project.numberOfPages}
+                </p>
+              )}
               <p className="text-gray-300 mb-2">
-                <strong>Target Audience:</strong> {project.targetAudience}
-              </p>
-              <p className="text-gray-300 mb-2">
-                <strong>Pages Needed:</strong> {project.numberOfPages}
-              </p>
-              <p className="text-gray-300 mb-2">
-                <strong>Timeline:</strong> {project.timeline} | <strong>Budget:</strong> {project.budget}
+                <strong>Timeline:</strong> {project.timeline || "N/A"} | <strong>Budget:</strong> ${project.budget || "?"}
               </p>
               {project.designInspiration && (
                 <p className="text-gray-300 mb-2">
@@ -159,7 +174,7 @@ const ProjectStatus = () => {
               )}
               {project.submittedAt && (
                 <p className="text-sm text-gray-500 italic">
-                  Submitted: {new Date(project.submittedAt.toDate()).toLocaleDateString()}
+                  Submitted: {new Date(project.submittedAt?.toDate?.() || project.createdAt).toLocaleDateString()}
                 </p>
               )}
 

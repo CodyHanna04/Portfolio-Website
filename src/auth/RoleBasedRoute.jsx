@@ -5,7 +5,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { Navigate } from "react-router-dom";
 
-const RoleBasedRoute = ({ children, allowedRoles }) => {
+const RoleBasedRoute = ({ children, allowedRoles = [] }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [role, setRole] = useState(null);
@@ -17,7 +17,7 @@ const RoleBasedRoute = ({ children, allowedRoles }) => {
         const userSnap = await getDoc(userRef);
         const userData = userSnap.data();
         setUser(firebaseUser);
-        setRole(userData?.role);
+        setRole(userData?.role || null);
       } else {
         setUser(null);
         setRole(null);
@@ -31,6 +31,11 @@ const RoleBasedRoute = ({ children, allowedRoles }) => {
   if (loading) return <div>Loading...</div>;
 
   if (!user || !allowedRoles.includes(role)) {
+    // Optional: redirect to correct dashboard if logged in but role is different
+    if (role === "admin") return <Navigate to="/admin" />;
+    if (role === "ambassador") return <Navigate to="/ambassador/dashboard" />;
+    if (role === "client") return <Navigate to="/client-dashboard" />;
+
     return <Navigate to="/login" />;
   }
 

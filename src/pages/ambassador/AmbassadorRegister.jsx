@@ -1,30 +1,19 @@
-import { useState, useEffect } from "react";
-import { auth, db } from "../auth/firebase";
+import { useState } from "react";
+import { auth, db } from "../../auth/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { doc, setDoc, getDoc } from "firebase/firestore";
+import { doc, setDoc, getDocs, collection, query, where } from "firebase/firestore";
 import { useNavigate, Link } from "react-router-dom";
 
-const Register = () => {
+const AmbassadorRegister = () => {
   const [form, setForm] = useState({
-    businessName: "",
+    name: "",
     email: "",
     phone: "",
-    website: "",
     password: "",
-    referrerId: "", // optional but validated if filled
+    referralCode: "",
   });
   const [error, setError] = useState("");
-  const [checkingReferral, setCheckingReferral] = useState(false);
   const navigate = useNavigate();
-
-  // Autofill from URL
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const ref = urlParams.get("ref");
-    if (ref) {
-      setForm((prev) => ({ ...prev, referrerId: ref }));
-    }
-  }, []);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -34,33 +23,36 @@ const Register = () => {
     e.preventDefault();
     setError("");
 
-    // 🔍 Validate referral if filled
-    if (form.referrerId) {
-      setCheckingReferral(true);
-      const refDoc = await getDoc(doc(db, "users", form.referrerId));
-      if (!refDoc.exists()) {
-        setError("Invalid referral code.");
-        setCheckingReferral(false);
-        return;
-      }
-      setCheckingReferral(false);
+    // 🔍 Check if referralCode is already used
+    const referralQuery = query(
+      collection(db, "users"),
+      where("referralCode", "==", form.referralCode.trim().toLowerCase())
+    );
+    const existing = await getDocs(referralQuery);
+    if (!form.referralCode.trim()) {
+      return setError("Referral link ID is required.");
+    }
+    if (!/^[a-zA-Z0-9-_]+$/.test(form.referralCode)) {
+      return setError("Referral link can only contain letters, numbers, hyphens, and underscores.");
+    }
+    if (!existing.empty) {
+      return setError("That referral link ID is already taken. Please choose another.");
     }
 
-    // 👤 Create user and save
     try {
       const res = await createUserWithEmailAndPassword(auth, form.email, form.password);
       await setDoc(doc(db, "users", res.user.uid), {
-        businessName: form.businessName,
+        name: form.name,
         email: form.email,
         phone: form.phone,
-        website: form.website,
-        role: "client",
+        referralCode: form.referralCode.trim().toLowerCase(),
+        role: "ambassador",
         userId: res.user.uid,
-        referrerId: form.referrerId || null,
         createdAt: new Date().toISOString(),
-        active: true
+        active: true,
+        hasReferrals: false
       });
-      navigate("/client-dashboard");
+      navigate("/ambassador/dashboard");
     } catch (err) {
       setError(err.message);
     }
@@ -68,14 +60,14 @@ const Register = () => {
 
   return (
     <div className="auth-wrapper">
-      <h2>Register</h2>
+      <h2>Ambassador Sign Up</h2>
       <form onSubmit={handleRegister}>
         <input
-          name="businessName"
+          name="name"
           type="text"
           onChange={handleChange}
-          value={form.businessName}
-          placeholder="Business Name"
+          value={form.name}
+          placeholder="Full Name"
           required
         />
         <input
@@ -95,13 +87,6 @@ const Register = () => {
           required
         />
         <input
-          name="website"
-          type="url"
-          onChange={handleChange}
-          value={form.website}
-          placeholder="Website (optional)"
-        />
-        <input
           name="password"
           type="password"
           onChange={handleChange}
@@ -110,18 +95,17 @@ const Register = () => {
           required
         />
         <input
-          name="referrerId"
+          name="referralCode"
           type="text"
           onChange={handleChange}
-          value={form.referrerId}
-          placeholder="Referral Code (optional)"
+          value={form.referralCode}
+          placeholder="Choose your referral link ID (e.g., codyrocks)"
+          required
         />
-        <button type="submit" disabled={checkingReferral}>
-          {checkingReferral ? "Checking referral..." : "Register"}
-        </button>
+        <button type="submit">Sign Up</button>
         {error && <p className="error-message">{error}</p>}
         <div className="text-center text-sm mt-2">
-          Already have an account?{" "}
+          Already an ambassador?{" "}
           <Link to="/login" className="text-sky-400 hover:underline">
             Login
           </Link>
@@ -131,4 +115,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default AmbassadorRegister;

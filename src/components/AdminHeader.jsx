@@ -17,6 +17,7 @@ const AdminHeader = () => {
         <Link to="/admin" className="hover:text-sky-400">Dashboard</Link>
         <Link to="/admin/proposals" className="hover:text-sky-400">Proposals</Link>
         <Link to="/admin/invoices" className="hover:text-sky-400">Invoices</Link>
+        <Link to="/admin/ambassadors" className="hover:text-sky-400">Ambassador Dashboard</Link>
         <Link to="/admin/users" className="hover:text-sky-400">Users</Link>
         <Link to="/admin/settings" className="hover:text-sky-400">Settings</Link>
         <button onClick={handleLogout} className="text-red-400 hover:text-red-300">Logout</button>
