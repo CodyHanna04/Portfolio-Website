@@ -1,51 +1,88 @@
 import { Link } from "react-router-dom";
+import internshipHub from "../projects/internshipHub";
+import pancakeNight from "../projects/pancakeNight";
+import hannaProperties from "../projects/hannaProperties";
+import warehouseApp from "../projects/warehouseApp";
 
 const projects = [
-  {
-    title: "Internship Hub",
-    description: "A full-stack platform for students to find local internships.",
-    route: "/project1",
-  },
-  {
-    title: "Kitchen Display System",
-    description: "Order management system for pancake nights.",
-    route: "/project2",
-  },
-  {
-    title: "Rental Property Management System",
-    description: "Manage properties and tenants easily.",
-    route: "/project3",
-  },
-  {
-    title: "Virtual Warehouse",
-    description: "Help visualize your warehouse inventory and space.",
-    route: "/project4",
-  },
+  { data: hannaProperties, route: "/project3" },
+  { data: internshipHub, route: "/project1" },
+  { data: pancakeNight, route: "/project2" },
+  { data: warehouseApp, route: "/project4" },
 ];
 
 export default function Projects() {
   return (
     <div className="bg-gray-900 text-white min-h-screen py-20 px-6">
-    <section id="projects" className="py-20 px-6 max-w-5xl mx-auto">
-      <h2 className="text-3xl font-bold text-center mb-12">Projects</h2>
-      <div className="grid gap-8 sm:grid-cols-2">
-        {projects.map((proj, index) => (
-          <div
-            key={index}
-            className="bg-gray-800 p-6 rounded-xl shadow hover:shadow-lg transition"
-          >
-            <h3 className="text-xl font-semibold text-white">{proj.title}</h3>
-            <p className="text-gray-300 mt-2">{proj.description}</p>
-            <Link
-              to={proj.route}
-              className="inline-block mt-4 text-sky-400 hover:underline"
+      <section className="max-w-5xl mx-auto">
+        <div className="text-center mb-14">
+          <h2 className="text-4xl font-bold mb-4">Projects</h2>
+          <p className="text-gray-400 max-w-2xl mx-auto text-lg">
+            Real-world applications built to solve real problems — from property management to kitchen logistics.
+          </p>
+        </div>
+
+        <div className="grid gap-8 sm:grid-cols-2">
+          {projects.map(({ data, route }, index) => (
+            <div
+              key={index}
+              className="bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-sky-900/30 hover:-translate-y-1 transition-all duration-200 flex flex-col"
             >
-              View Project →
-            </Link>
-          </div>
-        ))}
-      </div>
-    </section>
+              <img
+                src={`/images/${data.images[0]}`}
+                alt={data.title}
+                className="w-full h-48 object-cover"
+              />
+              <div className="p-6 flex flex-col flex-1">
+                <h3 className="text-xl font-semibold text-white mb-2">{data.title}</h3>
+                <p className="text-gray-400 text-sm leading-relaxed mb-4 flex-1">
+                  {data.description}
+                </p>
+
+                <div className="flex flex-wrap gap-2 mb-5">
+                  {data.tech.map((t, i) => (
+                    <span
+                      key={i}
+                      className="bg-gray-700 text-sky-400 text-xs px-2.5 py-1 rounded-full border border-gray-600"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="flex items-center justify-between pt-4 border-t border-gray-700">
+                  <Link
+                    to={route}
+                    className="text-sky-400 font-medium hover:underline text-sm"
+                  >
+                    View Details →
+                  </Link>
+                  <div className="flex gap-4">
+                    <a
+                      href={data.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-400 hover:text-white text-sm transition"
+                    >
+                      GitHub
+                    </a>
+                    {data.live && (
+                      <a
+                        href={data.live}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-gray-400 hover:text-white text-sm transition"
+                      >
+                        Live Site
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }
