@@ -5,7 +5,7 @@ const cyberCoreTech = {
   tech: ["Next.js", "React", "CSS Modules", "Azure", "IIS", "Git / GitHub"],
   github: null,
   live: "https://cybercoretech.com",
-  images: [],
+  images: ["cybercore1.png", "cybercore2.png", "cybercore3.png", "cybercore4.png", "cybercore5.png"],
   problem:
     "HP's cybersecurity team flagged the existing WordPress/SiteGround site during a vulnerability assessment: an open FTP port (SiteGround blocked logins but not the port itself), outdated plugins, PHP exploit surfaces, XML-RPC abuse vectors, and admin brute-force attack surfaces all posed unacceptable risk for a company handling secure federal supply chains.",
   solution:
