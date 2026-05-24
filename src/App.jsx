@@ -5,10 +5,7 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Projects from './pages/Projects';
 import Contact from './pages/Contact';
-import Project1 from "./pages/Project1";
-import Project2 from "./pages/Project2";
-import Project3 from "./pages/Project3";
-import Project4 from "./pages/Project4";
+import ProjectDetail from "./pages/ProjectDetail";
 //Cody Codes LLC. Pages
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -80,10 +77,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/projects" element={<Projects />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/project1" element={<Project1 />} />
-        <Route path="/project2" element={<Project2 />} />
-        <Route path="/project3" element={<Project3 />} />
-        <Route path="/project4" element={<Project4 />} />
+        <Route path="/projects/:slug" element={<ProjectDetail />} />
         
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

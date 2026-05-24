@@ -1,18 +1,19 @@
 const skills = {
   Frontend: ["React", "Next.js", "Tailwind CSS", "JavaScript", "HTML / CSS"],
-  "Backend & Services": ["Firebase", "Firestore", "Firebase Auth", "Stripe", "EmailJS"],
-  "Tools & Platforms": ["Vite", "Vercel", "Git", "GitHub", "XLSX"],
+  "Backend & Data": ["Firebase", "Firestore", "Firebase Auth", "Stripe", "Python", "EmailJS"],
+  Infrastructure: ["Proxmox", "Linux", "Docker", "Networking", "Virtualization"],
+  "Dev Tools": ["Vite", "Vercel", "Git / GitHub", "XLSX", "AI / ML"],
 };
 
 export default function About() {
   return (
     <div className="bg-gray-900 text-white min-h-screen py-20 px-6">
-      <div className="max-w-3xl mx-auto space-y-14">
+      <div className="max-w-4xl mx-auto space-y-14">
 
         {/* Bio */}
         <div className="text-center">
           <h2 className="text-4xl font-bold mb-6">About Me</h2>
-          <p className="text-gray-300 text-lg leading-relaxed">
+          <p className="text-gray-300 text-lg leading-relaxed max-w-2xl mx-auto">
             I'm a developer based in Maryland, currently studying at Stevenson University.
             I love building projects that help others — whether it's websites for small businesses,
             apps for students, or automation tools to save time. I'm passionate about clean code,
@@ -23,7 +24,7 @@ export default function About() {
         {/* Skills */}
         <div>
           <h3 className="text-2xl font-semibold mb-8 text-center">Skills & Technologies</h3>
-          <div className="grid sm:grid-cols-3 gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
             {Object.entries(skills).map(([category, items]) => (
               <div key={category} className="bg-gray-800 rounded-xl p-5 border border-gray-700">
                 <h4 className="text-sky-400 font-medium mb-4 text-xs uppercase tracking-widest">

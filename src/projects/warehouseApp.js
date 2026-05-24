@@ -2,9 +2,9 @@ const warehouseApp = {
   title: "Warehouse Inventory Management System",
   description:
     "A custom inventory tool for logging, tracking, and visualizing warehouse shelf and floor data. Designed to provide fast data entry and real-time occupancy insights.",
-  tech: ["React", "Firebase (Firestore)", "XLSX", "Vercel"],
+  tech: ["React", "Firebase", "XLSX", "Vercel"],
   github: "https://github.com/CodyHanna04/virtual-warehouse",
-  live: "https://warehouse-input.vercel.app/",
+  live: "https://virtual-warehouse.vercel.app/",
   images: ["warehouse1.png", "warehouse2.png", "warehouse3.png"],
   problem:
     "Manual tracking of shelf-level warehouse inventory was slow, inconsistent, and prone to human error. Occupancy and clearance data were difficult to access or filter.",

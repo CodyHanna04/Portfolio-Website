@@ -2,7 +2,7 @@ const hannaProperties = {
   title: "Hanna Properties - Rental Management System",
   description:
     "A property management platform for landlords to list rentals, manage tenants, collect payments, and streamline communication — built from the ground up to replace an old Wix site, that was meant to list properties to showcase them. This was turned from a property showcase, into a tool for landlords and tenants.",
-  tech: ["React", "Firebase", "Stripe", "Vercel", "ImgBB.com"],
+  tech: ["React", "Firebase", "Stripe", "Vercel", "ImgBB.com", "Authentication"],
   github: "https://github.com/CodyHanna04/hanna-properties",
   live: "https://hanna-properties.vercel.app/",
   images: ["hanna1.png", "hanna2.png", "hanna3.png", "hanna4.png", "hanna5.png", "hanna6.png", ],

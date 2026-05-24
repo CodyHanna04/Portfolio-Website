@@ -27,7 +27,7 @@ export default function Home() {
         </h1>
         <p className="text-2xl text-gray-400 font-light mb-6">Full-Stack Developer</p>
         <p className="text-lg text-gray-300 max-w-2xl mx-auto mb-8 leading-relaxed">
-          Building real-world tools that solve real problems — from rental management systems to kitchen dashboards.
+          Building real-world tools that solve real problems, from fun projects to enterprise level applications.
         </p>
         <div className="flex flex-wrap justify-center gap-4">
           <Link
@@ -50,56 +50,58 @@ export default function Home() {
         <h2 className="text-3xl font-bold mb-2 text-center">Featured Projects</h2>
         <p className="text-gray-400 text-center mb-10">A few things I've built recently</p>
         <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
+
           <Link
-            to="/project3"
+            to="/projects/hanna-properties"
             className="group bg-gray-800 rounded-xl overflow-hidden hover:shadow-sky-900/30 hover:-translate-y-1 transition-all duration-200"
           >
             <img
               src="/images/hanna1.png"
               alt="Hanna Properties"
-              className="w-full h-44 object-cover"
+              className="w-full h-44 object-cover group-hover:brightness-110 transition-all duration-200"
             />
             <div className="p-4">
               <h3 className="text-base font-semibold group-hover:text-sky-400 transition-colors">
                 Hanna Properties
               </h3>
-              <p className="text-gray-400 text-sm mt-1">Rental management system</p>
+              <p className="text-gray-400 text-sm mt-1">Full-stack rental management platform</p>
             </div>
           </Link>
 
           <Link
-            to="/project1"
+            to="/projects/shipment-tracker"
             className="group bg-gray-800 rounded-xl overflow-hidden hover:shadow-sky-900/30 hover:-translate-y-1 transition-all duration-200"
           >
             <img
-              src="/images/internshiphub1.png"
-              alt="Internship Hub"
-              className="w-full h-44 object-cover"
+              src="/images/shipmenttracker1.png"
+              alt="Shipment Tracker"
+              className="w-full h-44 object-cover group-hover:brightness-110 transition-all duration-200"
             />
             <div className="p-4">
               <h3 className="text-base font-semibold group-hover:text-sky-400 transition-colors">
-                Internship Hub
+                Shipment Tracker
               </h3>
-              <p className="text-gray-400 text-sm mt-1">Student internship platform</p>
+              <p className="text-gray-400 text-sm mt-1">AI-powered logistics dashboard</p>
             </div>
           </Link>
 
           <Link
-            to="/project2"
+            to="/projects/christmas-list-creator"
             className="group bg-gray-800 rounded-xl overflow-hidden hover:shadow-sky-900/30 hover:-translate-y-1 transition-all duration-200"
           >
             <img
-              src="/images/pancake1.png"
-              alt="Pancake Night"
-              className="w-full h-44 object-cover"
+              src="/images/christmaslistmaker1.png"
+              alt="Christmas List Creator"
+              className="w-full h-44 object-cover group-hover:brightness-110 transition-all duration-200"
             />
             <div className="p-4">
               <h3 className="text-base font-semibold group-hover:text-sky-400 transition-colors">
-                Pancake Night KDS
+                Christmas List Creator
               </h3>
-              <p className="text-gray-400 text-sm mt-1">Kitchen display system</p>
+              <p className="text-gray-400 text-sm mt-1">Collaborative gift wishlist app</p>
             </div>
           </Link>
+
         </div>
         <div className="mt-8 text-center">
           <Link to="/projects" className="text-sky-400 hover:underline text-sm">
