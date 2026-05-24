@@ -9,9 +9,11 @@ import fedexQuoteScript from "./fedexQuoteScript";
 import baylineVisuals from "./baylineVisuals";
 import brainBee from "./brainBee";
 import homelab from "./homelab";
+import cyberCoreTech from "./cyberCoreTech";
 
 const projects = [
   { ...hannaProperties, slug: "hanna-properties" },
+  { ...cyberCoreTech, slug: "cybercore-tech" },
   { ...shipmentTracker, slug: "shipment-tracker" },
   { ...pancakeNight, slug: "pancake-night" },
   { ...internshipHub, slug: "internship-hub" },
