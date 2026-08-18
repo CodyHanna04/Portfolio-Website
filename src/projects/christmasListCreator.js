@@ -6,14 +6,14 @@ const christmasListCreator = {
   github: null,
   live: "https://christmaslist.vercel.app/",
   images: [
-    "christmaslistmaker1.png",
-    "christmaslistmaker2.png",
-    "christmaslistmaker3.png",
-    "christmaslistmaker4.png",
-    "christmaslistmaker5.png",
+    "christmaslistmaker1.webp",
+    "christmaslistmaker2.webp",
+    "christmaslistmaker3.webp",
+    "christmaslistmaker4.webp",
+    "christmaslistmaker5.webp",
   ],
   problem:
-    "Sharing a Christmas list with family and friends meant screenshotting notes apps or sending Amazon cart links — with no way to coordinate who was buying what, leading to duplicates and spoiled surprises.",
+    "Sharing a Christmas list with family and friends meant screenshotting notes apps or sending Amazon cart links, with no way to coordinate who was buying what, leading to duplicates and spoiled surprises.",
   solution:
     "A dedicated wishlist platform where users create lists with item links, share them by URL, and visitors can mark items as pending or purchased so everyone knows what's already claimed.",
   features: [

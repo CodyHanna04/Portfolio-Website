@@ -5,9 +5,9 @@ const internshipHub = {
   github: "https://github.com/CodyHanna04/Internship-Hub",
   live: "https://internship-center.vercel.app/",
   images: [
-    "internshiphub1.png",
-    "internshiphub2.png",
-    "internshiphub3.png"
+    "internshiphub1.webp",
+    "internshiphub2.webp",
+    "internshiphub3.webp"
   ],
   problem: "Students often struggle to find internships, and local businesses lack a way to connect with them easily.",
   solution: "Internship Hub provides a centralized portal where businesses can post internships and students can apply directly. Businesses can also manage applications through a dashboard.",

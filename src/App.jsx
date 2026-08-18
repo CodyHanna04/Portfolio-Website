@@ -1,117 +1,136 @@
 // App.jsx
+import { useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
+import { MotionConfig } from 'framer-motion';
 import Header from './pages/Header';
+import Footer from './components/Footer';
 import Home from './pages/Home';
 import About from './pages/About';
 import Projects from './pages/Projects';
 import Contact from './pages/Contact';
 import ProjectDetail from "./pages/ProjectDetail";
-//Cody Codes LLC. Pages
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import ClientDashboard from "./pages/ClientDashboard";
-import RoleBasedRoute from "./auth/RoleBasedRoute";
-import PortalHeader from "./components/PortalHeader";
-import ProjectStatus from "./pages/ProjectStatus";
-import ProposalRequest from "./pages/ProposalRequest";
-import ForgotPassword from "./pages/ForgotPassword";
-import EditProposal from './pages/EditProposal';
-import ViewInvoice from './pages/ViewInvoice';
+import HomelabStatus from "./pages/HomelabStatus";
+import TechHelp from "./pages/TechHelp";
+import Resume from "./pages/Resume";
+import NotFound from "./pages/NotFound";
+import CommandPalette from "./components/CommandPalette";
+import PageTransition from "./components/PageTransition";
+import projects from "./projects/index";
 
-//Admin Side
-import AdminDashboard from "./pages/admin/AdminDashboard";
-import AdminProposals from "./pages/admin/Proposals";
-import AdminUsers from "./pages/admin/Users";
-import AdminInvoices from "./pages/admin/Invoices";
-import AdminSettings from "./pages/admin/Settings";
-import GenerateInvoice from "./pages/admin/GenerateInvoice";
-import EditInvoice from "./pages/admin/EditInvoice";
-import AdminHeader from './components/AdminHeader';
-import AdminAmbassadors from './pages/admin/AdminAmbassadors';
+const SITE = "https://codycodez.com";
+const DEFAULT_TITLE = "Cody Hanna | Full-Stack Developer & Systems Engineer";
+const DEFAULT_DESCRIPTION =
+  "Portfolio of Cody Hanna, a full-stack software engineer and systems enthusiast in Maryland. Real-world projects: rental management platforms, AI-powered logistics tools, and an enterprise-style homelab.";
 
-//Ambassador Side
-import AmbassadorHeader from './components/AmbassadorHeader';
-import AmbassadorDashboard from './pages/ambassador/AmbassadorDashboard';
-import AmbassadorRegister from './pages/ambassador/AmbassadorRegister';
-import AmbassadorEarnings from './pages/ambassador/AmbassadorEarnings';
-import AmbassadorProposalSubmission from './pages/ambassador/AmbassadorProposalSubmission';
+const routeMeta = {
+  "/": { title: DEFAULT_TITLE, description: DEFAULT_DESCRIPTION },
+  "/about": {
+    title: "About | Cody Hanna",
+    description:
+      "Background, career timeline, certifications, and skills for Cody Hanna, from React and Node.js development to Proxmox, Ceph, and enterprise-style homelab infrastructure.",
+  },
+  "/projects": {
+    title: "Projects | Cody Hanna",
+    description:
+      "Real-world software projects: rental management platforms, AI-powered logistics dashboards, internal automation tools, and enterprise-style infrastructure.",
+  },
+  "/homelab": {
+    title: "Homelab Status | Cody Hanna",
+    description:
+      "Live status and uptime for the services running on Cody Hanna's enterprise-style homelab: Proxmox, Ceph storage, Authentik SSO, and more.",
+  },
+  "/tech-help": {
+    title: "Tech Help & IT Consulting | Cody Hanna",
+    description:
+      "Friendly local IT support for homes and small businesses. Computer repair, Wi-Fi troubleshooting, websites, networking, and technology consulting.",
+  },
+  "/resume": {
+    title: "Resume | Cody Hanna",
+    description:
+      "Resume for Cody Hanna, a full-stack software engineer with experience in React, Node.js, systems administration, and enterprise-style infrastructure.",
+  },
+  "/contact": {
+    title: "Contact | Cody Hanna",
+    description:
+      "Get in touch with Cody Hanna for software development projects, tech help and IT consulting, or general inquiries.",
+  },
+};
 
+function getRouteMeta(pathname) {
+  if (routeMeta[pathname]) return { ...routeMeta[pathname], indexable: true };
+
+  const projectMatch = pathname.match(/^\/projects\/([^/]+)$/);
+  if (projectMatch) {
+    const project = projects.find((p) => p.slug === projectMatch[1]);
+    if (project) {
+      return {
+        title: `${project.title} | Cody Hanna`,
+        description: project.tagline || project.description || DEFAULT_DESCRIPTION,
+        indexable: true,
+      };
+    }
+  }
+
+  return { title: DEFAULT_TITLE, description: DEFAULT_DESCRIPTION, indexable: false };
+}
+
+function setMetaContent(selector, content) {
+  const el = document.querySelector(selector);
+  if (el) el.setAttribute("content", content);
+}
 
 function App() {
   const location = useLocation();
-  const adminPaths = [
-  "/admin",
-  "/admin/proposals",
-  "/admin/users",
-  "/admin/invoices",
-  "/admin/settings",
-  "/admin/ambassadors"
-];
 
-  const isAdminRoute = adminPaths.some(path => location.pathname.startsWith(path));
+  useEffect(() => {
+    const { title, description, indexable } = getRouteMeta(location.pathname);
+    const canonicalUrl = `${SITE}${location.pathname === "/" ? "" : location.pathname}`;
 
-  const ambassadorPaths = [
-  "/ambassador",
-  "/ambassador/dashboard",
-  "/ambassador/submit-proposal",
-  "/ambassador/earnings",
-];
+    document.title = title;
+    setMetaContent('meta[name="description"]', description);
+    setMetaContent('meta[property="og:title"]', title);
+    setMetaContent('meta[property="og:description"]', description);
+    setMetaContent('meta[property="og:url"]', canonicalUrl);
+    setMetaContent('meta[name="twitter:title"]', title);
+    setMetaContent('meta[name="twitter:description"]', description);
 
-  const isAmbassadorRoute = ambassadorPaths.some(path => location.pathname.startsWith(path));
+    const canonicalLink = document.querySelector('link[rel="canonical"]');
+    if (canonicalLink) canonicalLink.setAttribute("href", canonicalUrl);
 
-  const isPortalRoute = [
-    "/login",
-    "/register",
-    "/client-dashboard",
-    "/project-status",
-    "/forgot-password",
-    "/proposal-request",
-    "/register/ambassador"
-  ].includes(location.pathname);
+    let robotsMeta = document.querySelector('meta[name="robots"]');
+    if (!indexable) {
+      if (!robotsMeta) {
+        robotsMeta = document.createElement("meta");
+        robotsMeta.setAttribute("name", "robots");
+        document.head.appendChild(robotsMeta);
+      }
+      robotsMeta.setAttribute("content", "noindex, follow");
+    } else if (robotsMeta) {
+      robotsMeta.remove();
+    }
+
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
 
   return (
-    <div className="bg-gray-900 text-white font-sans">
-      {isAdminRoute ? <AdminHeader /> : isPortalRoute ? <PortalHeader /> : isAmbassadorRoute ? <AmbassadorHeader /> : <Header />}
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/projects" element={<Projects />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/projects/:slug" element={<ProjectDetail />} />
-        
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route
-          path="/client-dashboard"
-          element={
-            <RoleBasedRoute allowedRoles={["client"]}>
-              <ClientDashboard />
-            </RoleBasedRoute>
-          }
-        />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/project-status" element={<RoleBasedRoute allowedRoles={["client"]}><ProjectStatus /></RoleBasedRoute>} />
-        <Route path="/proposal-request" element={<RoleBasedRoute allowedRoles={["client"]}><ProposalRequest /></RoleBasedRoute>} />
-        <Route path="/edit-proposal/:id" element={<RoleBasedRoute allowedRoles={["client"]}><EditProposal /></RoleBasedRoute>} />
-        <Route path="/view-invoice/:id" element={<RoleBasedRoute allowedRoles={["client"]}><ViewInvoice /></RoleBasedRoute>} />
-
-        {/* Admin (Protected by role) */}
-        <Route path="/admin" element={<RoleBasedRoute allowedRoles={["admin"]}><AdminDashboard /></RoleBasedRoute>}/>
-        <Route path="/admin/proposals" element={<RoleBasedRoute allowedRoles={["admin"]}><AdminProposals /></RoleBasedRoute>}/>
-        <Route path="/admin/users" element={<RoleBasedRoute allowedRoles={["admin"]}><AdminUsers /></RoleBasedRoute>}/>
-        <Route path="/admin/invoices" element={<RoleBasedRoute allowedRoles={["admin"]}><AdminInvoices /></RoleBasedRoute>}/>
-        <Route path="/admin/settings" element={<RoleBasedRoute allowedRoles={["admin"]}><AdminSettings /></RoleBasedRoute>}/>
-        <Route path="/admin/ambassadors" element={<RoleBasedRoute allowedRoles={["admin"]}><AdminAmbassadors /></RoleBasedRoute>}/>
-        <Route path="/admin/generate-invoice/:proposalId" element={<RoleBasedRoute allowedRoles={["admin"]}><GenerateInvoice /></RoleBasedRoute>}/>
-        <Route path="/admin/invoices/edit/:invoiceId" element={<RoleBasedRoute allowedRoles={["admin"]}><EditInvoice /></RoleBasedRoute>}/>
-
-        {/* Ambassador Paths */}
-        <Route path="/ambassador/dashboard" element={<RoleBasedRoute allowedRoles={["ambassador"]}><AmbassadorDashboard /></RoleBasedRoute>}/>
-        <Route path="/ambassador/earnings" element={<RoleBasedRoute allowedRoles={["ambassador"]}><AmbassadorEarnings /></RoleBasedRoute>}/>
-        <Route path="/ambassador/submit-proposal" element={<RoleBasedRoute allowedRoles={["ambassador"]}><AmbassadorProposalSubmission /></RoleBasedRoute>}/>
-        <Route path="/register/ambassador" element={<AmbassadorRegister />}/>
-      </Routes>
-    </div>
+    <MotionConfig reducedMotion="user">
+      <div className="bg-gray-900 text-white font-sans">
+        <Header />
+        <Routes>
+          <Route path="/" element={<PageTransition><Home /></PageTransition>} />
+          <Route path="/about" element={<PageTransition><About /></PageTransition>} />
+          <Route path="/projects" element={<PageTransition><Projects /></PageTransition>} />
+          <Route path="/projects/:slug" element={<PageTransition><ProjectDetail /></PageTransition>} />
+          <Route path="/homelab" element={<PageTransition><HomelabStatus /></PageTransition>} />
+          <Route path="/tech-help" element={<PageTransition><TechHelp /></PageTransition>} />
+          <Route path="/resume" element={<PageTransition><Resume /></PageTransition>} />
+          <Route path="/contact" element={<PageTransition><Contact /></PageTransition>} />
+          <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
+        </Routes>
+        <CommandPalette />
+        <Footer />
+      </div>
+    </MotionConfig>
   );
 }
 

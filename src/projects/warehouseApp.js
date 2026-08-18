@@ -5,7 +5,11 @@ const warehouseApp = {
   tech: ["React", "Firebase", "XLSX", "Vercel"],
   github: "https://github.com/CodyHanna04/virtual-warehouse",
   live: "https://virtual-warehouse.vercel.app/",
-  images: ["warehouse1.png", "warehouse2.png", "warehouse3.png"],
+  images: ["warehouse1.webp", "warehouse2.webp", "warehouse3.webp"],
+  stats: [
+    { value: "weeks → 1 afternoon", label: "to audit shelf clearances" },
+    { value: "3 days", label: "from idea to working tool" },
+  ],
   problem:
     "Manual tracking of shelf-level warehouse inventory was slow, inconsistent, and prone to human error. Occupancy and clearance data were difficult to access or filter.",
   solution:

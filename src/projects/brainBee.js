@@ -5,11 +5,11 @@ const brainBee = {
   tech: ["React", "Vercel"],
   github: null,
   live: "https://brain-bee-site.vercel.app/",
-  images: ["brainbee1.png", "brainbee2.png", "brainbee3.png"],
+  images: ["brainbee1.webp", "brainbee2.webp", "brainbee3.webp"],
   problem:
-    "The Stevenson Psych Club needed a centralized location to distribute competition resources, forms, and event details to high school students and parents participating in the state-level Brain Bee — instead of relying on scattered emails and social posts.",
+    "The Stevenson Psych Club needed a centralized location to distribute competition resources, forms, and event details to high school students and parents participating in the state-level Brain Bee, instead of relying on scattered emails and social posts.",
   solution:
-    "Built a clean informational site where the club shares forms, study resources, and event logistics — giving students and parents one reliable place to get everything they need.",
+    "Built a clean informational site where the club shares forms, study resources, and event logistics, giving students and parents one reliable place to get everything they need.",
   features: [
     "Event details: date, time, and location prominently displayed",
     "Downloadable forms and registration information",

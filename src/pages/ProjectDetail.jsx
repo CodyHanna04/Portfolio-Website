@@ -110,6 +110,17 @@ export default function ProjectDetail() {
         <h1 className="text-4xl font-bold fade-in">{project.title}</h1>
         <p className="text-lg text-gray-300 fade-in">{project.description}</p>
 
+        {project.stats?.length > 0 && (
+          <div className="fade-in flex flex-wrap gap-x-10 gap-y-4 border-y border-gray-800 py-5">
+            {project.stats.map((stat) => (
+              <div key={stat.label}>
+                <p className="text-xl font-semibold text-sky-400">{stat.value}</p>
+                <p className="text-gray-500 text-sm">{stat.label}</p>
+              </div>
+            ))}
+          </div>
+        )}
+
         <ImageGallery images={project.images} title={project.title} />
 
         <div className="section-divider fade-in" />
