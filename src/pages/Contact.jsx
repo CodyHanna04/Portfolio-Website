@@ -68,7 +68,7 @@ export default function Contact() {
         </p>
 
         <div className="text-gray-300 space-y-1">
-          <p><strong>Email:</strong> <a href="mailto:codyhanna8@gmail.com" className="text-sky-400 hover:underline">codyhanna8@gmail.com</a></p>
+          <p><strong>Email:</strong> <a href="mailto:cody@codycodez.com" className="text-sky-400 hover:underline">cody@codycodez.com</a></p>
           <p><strong>Phone:</strong> <a href="tel:4104909074" className="text-sky-400 hover:underline">(410) 490-9074</a></p>
         </div>
 

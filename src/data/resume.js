@@ -6,7 +6,7 @@ const resume = {
   contact: {
     location: "Stevensville, MD",
     phone: "(410) 490-9074",
-    email: "codyhanna8@gmail.com",
+    email: "cody@codycodez.com",
     website: "codycodez.com",
     github: "github.com/CodyHanna04",
     linkedin: "linkedin.com/in/cody-hanna04",

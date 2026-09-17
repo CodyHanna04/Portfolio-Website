@@ -79,7 +79,7 @@ export default async function handler(req, res) {
   try {
     await resend.emails.send({
       from: "Cody Hanna <hello@contact.codycodez.com>",
-      to: "codyhanna8@gmail.com",
+      to: "cody@codycodez.com",
       replyTo: email,
       subject: `New contact form message: ${reasonLabel}`,
       text: [

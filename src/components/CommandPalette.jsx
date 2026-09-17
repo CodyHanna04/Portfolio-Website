@@ -15,7 +15,7 @@ const pageItems = [
 const externalItems = [
   { label: "GitHub", hint: "Link", href: "https://github.com/CodyHanna04", keywords: "code repos source" },
   { label: "LinkedIn", hint: "Link", href: "https://linkedin.com/in/cody-hanna04", keywords: "profile career network" },
-  { label: "Email Me", hint: "Link", href: "mailto:codyhanna8@gmail.com", keywords: "contact mail" },
+  { label: "Email Me", hint: "Link", href: "mailto:cody@codycodez.com", keywords: "contact mail" },
 ];
 
 const projectItems = projects.map((p) => ({
