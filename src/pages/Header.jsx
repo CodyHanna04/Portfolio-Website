@@ -7,7 +7,6 @@ const links = [
   { to: '/about', label: 'About' },
   { to: '/projects', label: 'Projects' },
   { to: '/homelab', label: 'Homelab' },
-  { to: '/tech-help', label: 'Tech Help' },
   { to: '/resume', label: 'Resume' },
   { to: '/contact', label: 'Contact' },
 ];

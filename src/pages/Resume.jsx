@@ -95,11 +95,17 @@ export default function Resume() {
         </Section>
 
         <Section title="Education & Certifications">
-          <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
-            <h3 className="font-semibold">{resume.education.school}</h3>
-            <p className="text-gray-500 text-xs font-mono">{resume.education.period}</p>
+          <div className="space-y-3">
+            {resume.education.map((edu) => (
+              <div key={edu.school}>
+                <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
+                  <h3 className="font-semibold">{edu.school}</h3>
+                  <p className="text-gray-500 text-xs font-mono">{edu.period}</p>
+                </div>
+                <p className="text-gray-300 text-sm">{edu.degree}</p>
+              </div>
+            ))}
           </div>
-          <p className="text-gray-300 text-sm">{resume.education.degree}</p>
           <ul className="mt-3 space-y-1.5">
             {resume.certifications.map((cert) => (
               <li key={cert} className="text-gray-300 text-sm flex gap-2">

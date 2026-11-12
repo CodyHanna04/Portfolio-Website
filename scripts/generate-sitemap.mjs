@@ -14,7 +14,6 @@ const staticRoutes = [
   { path: "/about", priority: "0.8" },
   { path: "/projects", priority: "0.8" },
   { path: "/homelab", priority: "0.6" },
-  { path: "/tech-help", priority: "0.9" },
   { path: "/resume", priority: "0.5" },
   { path: "/contact", priority: "0.7" },
 ];

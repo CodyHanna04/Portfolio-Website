@@ -2,7 +2,7 @@ const homelab = {
   title: "Homelab: Enterprise-Style Infrastructure",
   description:
     "A multi-node Proxmox virtualization environment built on enterprise Dell PowerEdge servers, designed like a small enterprise network rather than a pile of Docker containers. Centralized authentication, segmented networking, distributed storage, multi-site VPN connectivity, and documentation-first operations.",
-  tech: ["Proxmox", "Ceph", "Linux", "Networking", "Virtualization", "Authentik", "Tailscale", "Docker", "n8n", "Ollama / Local LLMs", "Grafana"],
+  tech: ["Proxmox", "Ceph", "Linux", "Networking", "Virtualization", "Authentik", "Tailscale", "Docker", "n8n", "Ollama / Local LLMs", "Uptime Kuma"],
   github: null,
   live: "https://www.linkedin.com/in/cody-hanna04/",
   images: ["homelab1.webp", "homelab2.webp", "homelab3.webp", "homelab4.webp", "homelab5.webp", "homelab6.webp"],
@@ -21,7 +21,8 @@ const homelab = {
     "Self-hosted OpenProject as the single source of truth for documentation and tasks",
     "Self-hosted local LLMs (Ollama) for private, offline AI workloads: no data leaving the network",
     "n8n automation pipelines handling scheduled data fetching, aggregation, and GPU-accelerated transcription",
-    "Grafana dashboards pulling metrics across the cluster for real-time monitoring and historical analytics",
+    "Uptime Kuma monitoring every service, published as a public status page on this site",
+    "Hosts my own apps in production, including CertPrep, a passkey-secured certification study platform",
     "Home Assistant, Immich, and Jellyfin rounding out the self-hosted family services, alongside a planned Windows Server / Active Directory domain",
   ],
   impact:

@@ -1,6 +1,6 @@
 // App.jsx
 import { useEffect } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { MotionConfig } from 'framer-motion';
 import Header from './pages/Header';
 import Footer from './components/Footer';
@@ -10,7 +10,7 @@ import Projects from './pages/Projects';
 import Contact from './pages/Contact';
 import ProjectDetail from "./pages/ProjectDetail";
 import HomelabStatus from "./pages/HomelabStatus";
-import TechHelp from "./pages/TechHelp";
+// Tech Help page is hidden for now; src/pages/TechHelp.jsx is kept so it can be restored.
 import Resume from "./pages/Resume";
 import NotFound from "./pages/NotFound";
 import CommandPalette from "./components/CommandPalette";
@@ -39,11 +39,6 @@ const routeMeta = {
     description:
       "Live status and uptime for the services running on Cody Hanna's enterprise-style homelab: Proxmox, Ceph storage, Authentik SSO, and more.",
   },
-  "/tech-help": {
-    title: "Tech Help & IT Consulting | Cody Hanna",
-    description:
-      "Friendly local IT support for homes and small businesses. Computer repair, Wi-Fi troubleshooting, websites, networking, and technology consulting.",
-  },
   "/resume": {
     title: "Resume | Cody Hanna",
     description:
@@ -52,7 +47,7 @@ const routeMeta = {
   "/contact": {
     title: "Contact | Cody Hanna",
     description:
-      "Get in touch with Cody Hanna for software development projects, tech help and IT consulting, or general inquiries.",
+      "Get in touch with Cody Hanna for software development projects, homelab questions, or general inquiries.",
   },
 };
 
@@ -122,7 +117,7 @@ function App() {
           <Route path="/projects" element={<PageTransition><Projects /></PageTransition>} />
           <Route path="/projects/:slug" element={<PageTransition><ProjectDetail /></PageTransition>} />
           <Route path="/homelab" element={<PageTransition><HomelabStatus /></PageTransition>} />
-          <Route path="/tech-help" element={<PageTransition><TechHelp /></PageTransition>} />
+          <Route path="/tech-help" element={<Navigate to="/" replace />} />
           <Route path="/resume" element={<PageTransition><Resume /></PageTransition>} />
           <Route path="/contact" element={<PageTransition><Contact /></PageTransition>} />
           <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />

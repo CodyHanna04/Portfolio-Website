@@ -1,11 +1,29 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-// Uptime Kuma status page endpoint. Once uptime.codycodez.com is live with a
-// status page slug of "homelab", this page switches from demo data to live
-// automatically. Override with VITE_UPTIME_BASE_URL / VITE_UPTIME_SLUG.
-const UPTIME_BASE = import.meta.env.VITE_UPTIME_BASE_URL || "https://uptime.codycodez.com";
-const UPTIME_SLUG = import.meta.env.VITE_UPTIME_SLUG || "homelab";
+// Live data comes from /api/uptime (api/uptime.js), a Vercel function that
+// proxies the homelab's Uptime Kuma status page. Until that's configured, or
+// whenever it's unreachable, the page falls back to the demo data below.
+const UPTIME_ENDPOINT = import.meta.env.VITE_UPTIME_ENDPOINT || "/api/uptime";
+
+// Friendly one-liners shown under each service. Kuma's status page API doesn't
+// expose monitor descriptions, so they're matched here by monitor name.
+const serviceDescriptions = {
+  "proxmox ve cluster": "Multi-node virtualization on Dell PowerEdge",
+  "ceph storage": "Distributed high-availability storage",
+  "tailscale mesh": "Multi-site private networking",
+  authentik: "Centralized SSO / OIDC identity provider",
+  homepage: "Service dashboard behind the reverse proxy",
+  "frigate nvr": "AI-powered camera detection & recording",
+  "uptime kuma": "Service monitoring behind this page",
+  certprep: "Certification study platform (Next.js + Postgres)",
+  "home assistant": "Smart home hub with HomeKit bridge",
+  n8n: "Workflow automation & local AI pipelines",
+  immich: "Self-hosted photo library",
+  jellyfin: "Self-hosted media server",
+  "storj node": "Decentralized storage node",
+  openproject: "Documentation & lab project tracking",
+};
 
 // ---- Demo data (shown until the live endpoint exists) ----
 const demoGroups = [
@@ -28,12 +46,13 @@ const demoGroups = [
     name: "Monitoring & Cameras",
     services: [
       { name: "Frigate NVR", description: "AI-powered camera detection & recording", uptime: 99.61 },
-      { name: "Grafana", description: "Metrics and infrastructure dashboards", uptime: 99.9 },
+      { name: "Uptime Kuma", description: "Service monitoring behind this page", uptime: 99.98 },
     ],
   },
   {
-    name: "Apps & Automation",
+    name: "Self-Hosted Apps",
     services: [
+      { name: "CertPrep", description: "Certification study platform (Next.js + Postgres)", uptime: 99.9 },
       { name: "Home Assistant", description: "Smart home hub with HomeKit bridge", uptime: 99.78 },
       { name: "n8n", description: "Workflow automation & local AI pipelines", uptime: 99.7 },
       { name: "Immich", description: "Self-hosted photo library", uptime: 99.88 },
@@ -75,32 +94,17 @@ function withDemoBars(groups) {
   }));
 }
 
-// ---- Live fetch (Uptime Kuma status page API) ----
+// ---- Live fetch (via the /api/uptime proxy) ----
 async function fetchLiveGroups() {
-  const signal = AbortSignal.timeout(5000);
-  const [pageRes, hbRes] = await Promise.all([
-    fetch(`${UPTIME_BASE}/api/status-page/${UPTIME_SLUG}`, { signal }),
-    fetch(`${UPTIME_BASE}/api/status-page/heartbeat/${UPTIME_SLUG}`, { signal }),
-  ]);
-  if (!pageRes.ok || !hbRes.ok) throw new Error("status endpoint unavailable");
-
-  const page = await pageRes.json();
-  const hb = await hbRes.json();
-
-  return page.publicGroupList.map((group) => ({
-    name: group.name,
-    services: group.monitorList.map((monitor) => {
-      const beats = hb.heartbeatList?.[monitor.id] ?? [];
-      const last = beats[beats.length - 1];
-      const uptimeRaw = hb.uptimeList?.[`${monitor.id}_24`];
-      return {
-        name: monitor.name,
-        description: "",
-        status: last ? (last.status === 1 ? "up" : "down") : "unknown",
-        uptime: uptimeRaw != null ? uptimeRaw * 100 : null,
-        bars: beats.slice(-30).map((b) => b.status === 1),
-      };
-    }),
+  const res = await fetch(UPTIME_ENDPOINT, { signal: AbortSignal.timeout(6000) });
+  if (!res.ok) throw new Error("status endpoint unavailable");
+  const data = await res.json();
+  return (data.groups || []).map((group) => ({
+    ...group,
+    services: group.services.map((svc) => ({
+      ...svc,
+      description: svc.description || serviceDescriptions[svc.name.toLowerCase()] || "",
+    })),
   }));
 }
 

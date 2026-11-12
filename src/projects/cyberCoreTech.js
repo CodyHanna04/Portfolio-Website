@@ -19,7 +19,7 @@ const cyberCoreTech = {
     "Pages: Home, About, Team, Culture, Services, Careers, Contact, Client Portal, Employee Portal, Virtual Tour",
     "Responsive layout built with Flexbox/Grid and CSS Modules",
     "Passed automated security header checks from HP Cybersecurity team scans",
-    "Documented and handed off to company GitHub (managed by IT/Brett) for ongoing maintenance",
+    "Documented and handed off to company GitHub (managed by IT) for ongoing maintenance",
   ],
   impact:
     "The rebuilt site passed HP's cybersecurity vulnerability assessments after migration. Eliminated all legacy WordPress attack surfaces, resolved the flagged FTP port exposure, and moved the company onto a controlled Azure-hosted infrastructure. CyberCore (an ISO 28000:2022 and ISO 20243:2018 certified firm with 140+ cleared professionals) now has a modern, maintainable, and security-hardened web presence.",

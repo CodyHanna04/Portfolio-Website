@@ -13,7 +13,7 @@ const SKY = "#0284c7";
 const DARK = "#111827";
 const GRAY = "#4b5563";
 
-const doc = new PDFDocument({ size: "LETTER", margins: { top: 46, bottom: 40, left: 54, right: 54 } });
+const doc = new PDFDocument({ size: "LETTER", margins: { top: 42, bottom: 36, left: 54, right: 54 } });
 doc.pipe(fs.createWriteStream(outPath));
 
 const width = doc.page.width - doc.page.margins.left - doc.page.margins.right;
@@ -24,12 +24,12 @@ doc.moveDown(0.1);
 doc.font("Helvetica").fontSize(11).fillColor(SKY).text(resume.title);
 doc.moveDown(0.3);
 const c = resume.contact;
-doc.fontSize(8.5).fillColor(GRAY).text(
+doc.fontSize(8).fillColor(GRAY).text(
   `${c.location}  ·  ${c.phone}  ·  ${c.email}  ·  ${c.website}  ·  ${c.github}  ·  ${c.linkedin}`
 );
 
 function sectionHeading(label) {
-  doc.moveDown(0.9);
+  doc.moveDown(0.6);
   doc.font("Helvetica-Bold").fontSize(10.5).fillColor(SKY).text(label.toUpperCase(), { characterSpacing: 1 });
   doc.moveDown(0.15);
   doc.moveTo(doc.page.margins.left, doc.y).lineTo(doc.page.margins.left + width, doc.y)
@@ -76,13 +76,17 @@ doc.font("Helvetica").fontSize(9).fillColor(DARK).text(resume.skills, { lineGap:
 
 // Education & Certifications
 sectionHeading("Education & Certifications");
-const ey = doc.y;
-doc.font("Helvetica-Bold").fontSize(9.5).fillColor(DARK).text(resume.education.school);
-doc.font("Helvetica").fontSize(8.5).fillColor(GRAY)
-  .text(resume.education.period, doc.page.margins.left, ey, { width, align: "right" });
-doc.font("Helvetica").fontSize(9).fillColor(DARK).text(resume.education.degree);
+resume.education.forEach((edu, i) => {
+  if (i > 0) doc.moveDown(0.3);
+  const ey = doc.y;
+  doc.font("Helvetica-Bold").fontSize(9.5).fillColor(DARK).text(edu.school);
+  doc.font("Helvetica").fontSize(8.5).fillColor(GRAY)
+    .text(edu.period, doc.page.margins.left, ey, { width, align: "right" });
+  doc.font("Helvetica").fontSize(9).fillColor(DARK).text(edu.degree);
+});
 doc.moveDown(0.3);
-bullets(resume.certifications);
+doc.font("Helvetica-Bold").fontSize(9).fillColor(DARK).text("Certifications: ", { continued: true })
+  .font("Helvetica").text(resume.certifications.join("  ·  "));
 
 doc.end();
 console.log(`Wrote ${outPath}`);

@@ -7,7 +7,6 @@ const pageItems = [
   { label: "About", hint: "Page", to: "/about", keywords: "bio experience skills certifications resume" },
   { label: "Projects", hint: "Page", to: "/projects", keywords: "portfolio work apps" },
   { label: "Homelab Status", hint: "Page", to: "/homelab", keywords: "uptime lab servers proxmox monitoring" },
-  { label: "Tech Help", hint: "Page", to: "/tech-help", keywords: "it consulting support services pricing" },
   { label: "Resume", hint: "Page", to: "/resume", keywords: "cv pdf download experience hire" },
   { label: "Contact", hint: "Page", to: "/contact", keywords: "email message hire" },
 ];

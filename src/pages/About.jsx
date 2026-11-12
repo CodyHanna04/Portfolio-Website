@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
 
 const skills = {
-  Frontend: ["React", "Next.js", "Tailwind CSS", "JavaScript", "HTML / CSS"],
-  "Backend & Data": ["Node.js", "Java", "Firebase / Firestore", "MongoDB", "REST APIs", "Stripe", "Python", "Relational Databases"],
-  Infrastructure: ["Proxmox VE", "Ceph Storage", "Linux", "Docker / LXC", "VLANs & Networking", "Windows Server / AD", "Tailscale", "Authentik SSO"],
-  "Tools & Scripting": ["PowerShell", "Bash", "Git / GitHub", "Vite", "Vercel", "Power Automate", "Local LLMs (Ollama)", "Workflow Automation (n8n)", "Data Analytics & Aggregation"],
+  Frontend: ["React", "Next.js", "JavaScript", "Tailwind CSS", "HTML / CSS", "Responsive & Accessible UI"],
+  "Backend & Data": ["Node.js", "Java", "Python", "REST APIs", "PostgreSQL (Row-Level Security)", "MongoDB", "Firebase / Firestore", "Stripe"],
+  "Cloud & DevOps": ["AWS (EKS, EC2, S3, IAM)", "CloudWatch & Elastic Monitoring", "Kubernetes", "Docker / Docker Compose", "CI/CD (GitHub Actions)", "Vercel", "Production Deployments", "Cloud Architecture Fundamentals"],
+  "Security & Identity": ["Passkeys / WebAuthn", "OAuth / OIDC / SSO", "Authentik", "Role-Based Access Control", "Rate Limiting & Bot Protection", "Network Segmentation"],
+  Infrastructure: ["Proxmox VE", "Ceph Storage", "Linux", "VLANs & Networking", "Windows Server / AD", "Tailscale", "Nginx Reverse Proxy", "Uptime Kuma Monitoring"],
+  "Practices & Tools": ["Git / GitHub & Code Review", "Agile (Jira)", "Documentation (Confluence)", "Automated Testing (Vitest)", "Linux / macOS / Windows", "PowerShell / Bash", "Power Automate", "n8n Workflow Automation", "Local LLMs (Ollama)"],
 };
 
 const timeline = [
@@ -13,14 +15,14 @@ const timeline = [
     company: "Interclypse Inc.",
     period: "June 2026 – Present",
     description:
-      "Building full-stack software with React, Java, and MongoDB as part of an engineering team, continuing to grow across the stack.",
+      "Writing and reviewing full-stack code in React, Java, and MongoDB, building API integrations, deploying to production on AWS EKS with CloudWatch and Elastic monitoring, and supporting customers, all within an Agile team using Jira and Confluence.",
   },
   {
     role: "IT Intern → Junior Image Technician → Technical Support Developer",
     company: "CyberCore Technologies",
     period: "June 2025 – June 2026",
     description:
-      "Promoted twice in a year. Built internal tools like a shipment anomaly tracker and a warehouse clearance app, automated a 3-week FedEx rate task down to about an hour, and imaged/deployed 400+ laptops weekly.",
+      "Promoted twice in a year. Rebuilt the company website from WordPress to a security-hardened Next.js site on Azure to clear HP's cybersecurity findings, built internal tools like a shipment anomaly tracker and a warehouse clearance app, automated a 3-week FedEx rate task down to about an hour, and imaged/deployed 400+ laptops weekly.",
   },
   {
     role: "Software Developer Intern",
@@ -28,6 +30,13 @@ const timeline = [
     period: "January 2025 – June 2025",
     description:
       "Worked on frontend-to-backend integrations with REST APIs and authentication workflows, troubleshooting across production and staging environments.",
+  },
+  {
+    role: "Master of Information Management",
+    company: "University of Maryland, College Park",
+    period: "August 2026 – May 2028 (expected)",
+    description:
+      "Graduate study in information management while working full time as a software engineer.",
   },
   {
     role: "B.S. Computer Information Systems",
@@ -39,6 +48,7 @@ const timeline = [
 ];
 
 const certifications = [
+  { name: "AWS Certified Cloud Practitioner", date: "November 2026" },
   { name: "CompTIA Security+", date: "March 2026" },
   { name: "ISC2 Certified in Cybersecurity (CC)", date: "2025" },
 ];
@@ -124,7 +134,7 @@ export default function About() {
         {/* Skills */}
         <div>
           <h3 className="text-2xl font-semibold mb-8 text-center">Skills & Technologies</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {Object.entries(skills).map(([category, items]) => (
               <div key={category} className="bg-gray-800 rounded-xl p-5 border border-gray-700">
                 <h4 className="text-sky-400 font-medium mb-4 text-xs uppercase tracking-widest">

@@ -4,7 +4,6 @@ import { useSearchParams } from "react-router-dom";
 const contactReasons = [
   { value: "general", label: "General Inquiry" },
   { value: "project", label: "Project" },
-  { value: "tech-help", label: "Tech Help / IT Consulting" },
   { value: "homelab", label: "Homelab" },
 ];
 

@@ -51,32 +51,11 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Tech Help promo */}
-      <div className="max-w-5xl mx-auto px-6 mb-20 fade-in">
-        <div className="border border-sky-400/30 bg-sky-400/5 rounded-2xl px-8 py-10 flex flex-col md:flex-row items-center gap-8">
-          <div className="flex-1 text-center md:text-left">
-            <h2 className="text-2xl font-bold mb-3">Need Help With Technology?</h2>
-            <p className="text-gray-300 mb-1">
-              Computers. Wi-Fi. Phones. Printers. Websites.
-            </p>
-            <p className="text-gray-400 text-sm">
-              Friendly local IT support for homes and small businesses.
-            </p>
-          </div>
-          <Link
-            to="/tech-help"
-            className="flex-shrink-0 bg-sky-400 text-white px-6 py-3 rounded-lg font-medium hover:bg-sky-500 transition"
-          >
-            Learn More
-          </Link>
-        </div>
-      </div>
-
       {/* Featured Projects */}
       <div className="max-w-5xl mx-auto px-6 fade-in">
         <h2 className="text-3xl font-bold mb-2 text-center">Featured Projects</h2>
         <p className="text-gray-400 text-center mb-10">A few things I've built recently</p>
-        <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
+        <div className="grid gap-6 sm:grid-cols-2">
           {featuredProjects.map((project) => (
             <ProjectCard key={project.slug} project={project} />
           ))}
